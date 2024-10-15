@@ -33,3 +33,6 @@ references member(id_num)
 on delete cascade
 
 )
+
+INSERT INTO MEMBER(username,password,name)
+VALUES('test','1234','12313')
