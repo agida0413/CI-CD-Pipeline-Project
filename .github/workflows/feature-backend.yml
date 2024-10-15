@@ -1,0 +1,20 @@
+name: BackEnd-Feature
+on:
+  push:
+    branches:
+      - feature/backend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker Image
+        run: docker build -t kimyong120413/docker-backend ./backend
+
+     
