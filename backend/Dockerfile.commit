@@ -10,7 +10,7 @@ COPY src ./src
 
 
 # Package the application
-RUN mvn clean package -X
+RUN mvn clean package -X || { cat /project/backend/target/surefire-reports/*.txt; exit 1; }
 
 
 # 2. Stage 2: Run the application
