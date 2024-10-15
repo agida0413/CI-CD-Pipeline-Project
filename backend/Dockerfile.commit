@@ -10,7 +10,7 @@ COPY src ./src
 
 
 # Package the application
-RUN mvn clean package 
+RUN mvn clean package -X
 
 
 # 2. Stage 2: Run the application
