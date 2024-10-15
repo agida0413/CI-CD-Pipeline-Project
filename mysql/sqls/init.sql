@@ -1,3 +1,9 @@
+-- sqls/init.sql
+CREATE DATABASE IF NOT EXISTS test;
+
+USE test;
+
+
 create table member(
 
 id_num int auto_increment,
@@ -33,3 +39,6 @@ references member(id_num)
 on delete cascade
 
 )
+
+INSERT INTO MEMBER(username,password,name)
+VALUES('test','1234','12313')

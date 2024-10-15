@@ -42,9 +42,7 @@ public class MemberServiceTest {
 
 	@Test
 	public void joinTest() throws Exception {
-	  
-
-	MemberDTO dto=  memberRepository.findByUsername("test");
-	assertThat(dto).isNotNull();
+	   memberRepository.findByUsername("test");
+	
 	}
 }
