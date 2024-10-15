@@ -4,9 +4,10 @@ FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /project/backend
 
 # Copy the pom.xml and install dependencies
+COPY src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar /project/backend/src/main/webapp/WEB-INF/lib/
 COPY pom.xml .
 COPY src ./src
-COPY src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar /project/backend/src/main/webapp/WEB-INF/lib/
+
 
 # Package the application
 RUN mvn clean package -DskipTests
