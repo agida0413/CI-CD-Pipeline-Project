@@ -14,6 +14,7 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+
       - name: Build Docker Image 
         run: docker compose -f docker-compose-commit.yml up --build
 
