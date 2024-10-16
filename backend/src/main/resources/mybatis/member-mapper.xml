@@ -8,13 +8,13 @@
 <mapper namespace="com.yj.mapper.MemberMapper">
 <select id="findByUsername" parameterType="String">
          SELECT *
-           FROM MEMBER 
+           FROM member 
           WHERE username = #{username} 
                 
 </select>
 
 <insert id="join" parameterType="MemberDTO">
-        INSERT INTO MEMBER(username,password,name)
+        INSERT INTO member(username,password,name)
         VALUES(#{username},#{password},#{name})
 </insert>
  </mapper>

@@ -11,8 +11,10 @@ import com.yj.dto.MemberDTO;
 import com.yj.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomUserDetailService implements UserDetailsService{
 private final MemberRepository repository;
 
@@ -24,7 +26,8 @@ private final MemberRepository repository;
 		//시큐리티 진행을 위해 해당이메일을 가진 회원정보를 가져옴 
 		MemberDTO dto=repository.findByUsername(username);
 		
-		
+		log.info("username:={}",dto.getUsername());
+		log.info("password:={}",dto.getPassword());
 		//이메일 기반 회원이 있다면 
 		if(dto!=null) {
 

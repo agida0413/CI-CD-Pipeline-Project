@@ -24,6 +24,7 @@ import com.yj.util.CaptchaUtil;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.captcha.Captcha;
 import nl.captcha.backgrounds.GradiatedBackgroundProducer;
 import nl.captcha.gimpy.FishEyeGimpyRenderer;
@@ -32,6 +33,7 @@ import nl.captcha.text.renderer.DefaultWordRenderer;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
@@ -49,10 +51,12 @@ public class MemberServiceImpl implements MemberService {
 		ImageIO.write(captcha.getImage(),"png" , bos);
 		String image = Base64.getEncoder().encodeToString(bos.toByteArray());
 		
+		
 		Map<String, String> map = new HashMap<>();
 		map.put("captchaKey", key);
 		map.put("captchaImage",image );
-	
+		
+		log.info("captha answer={}",captcha.getAnswer());
 		ResponseApi<Map> responseApi= new ResponseApi<Map>(map);
 		
 	
@@ -63,7 +67,9 @@ public class MemberServiceImpl implements MemberService {
 	public ResponseEntity<ResponseApi<?>> join (JoinDTO joinDTO,HttpSession session) throws Exception{
 		String captcha=joinDTO.getCaptcha();
 		String answer=(String)session.getAttribute(joinDTO.getCaptchaKey());
-		
+		if(answer==null) {
+			throw new Exception("키값이 존재하지 않습니다.");
+		}
 		if(!answer.equals(captcha)) {
 			throw new Exception("보안 문자가 틀렸습니다.");
 		}
