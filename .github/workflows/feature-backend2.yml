@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+     - feature/backend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start MySQL container
+        run: |
+          docker-compose -f docker-compose-backendCm.yml up -d mysql
+          
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if docker-compose -f docker-compose-backendCm.yml exec -T mysql mysqladmin ping -h"localhost" --silent; then
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+          
+      - name: Build and run backend container
+        run: docker-compose up -f docker-compose-backendCm.yml up --build backend
