@@ -11,9 +11,10 @@ jobs:
 
     services:
         build: .
-        env:
-          MYSQL_DATABASE: test
-          MYSQL_ROOT_PASSWORD: 1234
+        options:  # 여기에 추가
+          env:
+            MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
+            MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
 
