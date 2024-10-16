@@ -11,7 +11,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:latest
+        build: .
         env:
           MYSQL_DATABASE: test
           MYSQL_ROOT_PASSWORD: 1234
@@ -26,6 +26,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+          distribution: 'temurin'  # 이 줄을 추가합니다.
 
       - name: Run tests
         run: mvn test -Dspring.profiles.active=commit
