@@ -25,7 +25,11 @@ jobs:
               echo "Waiting for MySQL..."
               sleep 5
             done
+      - name: check      
+        run: | 
+            docker exec backend ls /project/backend      
       - name: Run backend tests
+      
         run: |
             docker exec backend mvn test  
   
