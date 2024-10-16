@@ -41,11 +41,17 @@ jobs:
         run: |
           echo "Creating database..."
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS test;"
-          
+
       - name: Run init.sql script
         run: |
           echo "Executing init.sql script..."
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test < ./mysql/init.sql
+          
+      - name: Check database and tables
+        run: |
+          echo "Checking if database and tables are created..."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
 
       - name: Run tests
         run: mvn test -Dspring.profiles.active=commit
