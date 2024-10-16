@@ -1,42 +1,31 @@
-name: BackEnd-Feature
+name: CI
+
 on:
   push:
     branches:
-      - feature/backend/**
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
 
-      - name: Build MySQL image
-        run: |
-          docker build -t kimyong120413/mysql:latest ./mysql
-
-      - name: Start MySQL and backend services
-        run: |
-          docker run -d --name mysql \
-            -e MYSQL_ROOT_PASSWORD=1234 \
-            -e MYSQL_DATABASE=test \
-            -p 3306:3306 \
-            kimyong120413/mysql:latest
-      - name: Wait for MySQL to be ready
-        run: |
-          until docker exec mysql mysqladmin --user=root --password=1234 ping; do
-            echo "Waiting for MySQL..."
-            sleep 5
-          done
-      - name: Build backend image
-        run: |
-          docker build -t kimyong120413/backend:latest -f ./backend/Dockerfile.commit ./backend
-
-      - name: Run backend tests
-        run: |
-          docker run --rm --network host kimyong120413/backend:latest mvn test
-
-       
+      - name: Run tests
+        run: mvn test -Dspring.profiles.active=commit
