@@ -3,9 +3,9 @@ FROM maven:latest AS build
 
 WORKDIR /project/backend
 
+COPY pom.xml .
 # Copy the pom.xml and install dependencies
 COPY src/main/webapp/WEB-INF/lib /project/backend/src/main/webapp/WEB-INF/lib/
-COPY pom.xml .
 COPY src ./src
 
 
