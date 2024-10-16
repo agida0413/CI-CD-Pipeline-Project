@@ -27,12 +27,11 @@ DELETE
 <!--리프레시 토큰을 데이터베이스에 저장함 ( 리프레시 토큰 발급시 (로그인성공, 재발급 )) -->
 <insert id="save" parameterType="TokenStoreDTO">
   /* 리프레시 토큰 발급,재발급 */
-INSERT INTO TOKEN_STORE (id_num,refresh,expiration,browser)
+INSERT INTO TOKEN_STORE (username,refresh,expiration)
        VALUES (
-               #{idNum}
+               #{username}
               ,#{refresh}
               ,#{expiration}
-              ,#{browser}
               )
 </insert>
 

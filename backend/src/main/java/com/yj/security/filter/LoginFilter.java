@@ -53,7 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     
         
         //로그인 api url
-        setFilterProcessesUrl("/api/login");
+        setFilterProcessesUrl("/api/v1/member/login");
     }
 
     @Override
