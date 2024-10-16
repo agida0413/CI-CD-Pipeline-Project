@@ -1,38 +1,18 @@
--- sqls/init.sql
-CREATE DATABASE IF NOT EXISTS test;
-
+-- init.sql
 USE test;
 
-
-create table member(
-
-id_num int auto_increment,
-
-username varchar(200) not null,
-
-password varchar(300) not null,
-
-name varchar(100) not null,
-
-constraint id_num_pk_123 primary key (id_num)  
-
+CREATE TABLE IF NOT EXISTS member (
+    id_num INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(200) NOT NULL,
+    password VARCHAR(300) NOT NULL,
+    name VARCHAR(100) NOT NULL
 );
 
-
-
-create table token_store(
-
-to_num int auto_increment,
-
-username varchar(100) not null,
-
-refresh TEXT not null,
-
-expiration VARCHAR(100) not null,
-
-constraint primary key to_num_pk(to_num)
-
+CREATE TABLE IF NOT EXISTS token_store (
+    to_num INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    refresh TEXT NOT NULL,
+    expiration VARCHAR(100) NOT NULL
 );
 
-INSERT INTO MEMBER(username,password,name)
-VALUES('test','1234','12313');
+INSERT INTO MEMBER (username, password, name) VALUES ('test', '1234', '12313');
