@@ -16,7 +16,7 @@ name varchar(100) not null,
 
 constraint id_num_pk_123 primary key (id_num)  
 
-)
+);
 
 
 
@@ -24,21 +24,15 @@ create table token_store(
 
 to_num int auto_increment,
 
-id_num int not null,
+username varchar(100) not null,
 
 refresh TEXT not null,
 
 expiration VARCHAR(100) not null,
 
-constraint primary key to_num_pk(to_num),
+constraint primary key to_num_pk(to_num)
 
-constraint foreign key id_num_token_store_fk(id_num)
-
-references member(id_num)
-
-on delete cascade
-
-)
+);
 
 INSERT INTO MEMBER(username,password,name)
-VALUES('test','1234','12313')
+VALUES('test','1234','12313');
