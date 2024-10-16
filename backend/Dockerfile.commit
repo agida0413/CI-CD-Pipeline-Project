@@ -8,7 +8,7 @@ COPY pom.xml .
 
 COPY src ./src
 
-# Package the application
+# MySQL이 준비되면 패키지 빌드
 RUN mvn clean package 
 
 
