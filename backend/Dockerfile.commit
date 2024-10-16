@@ -23,6 +23,8 @@ WORKDIR /project/backend
 COPY --from=build /project/backend/target/*.jar app.jar
 
 
+RUN apt-get update && apt-get install -y netcat && apt-get clean
 
 # Start the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Start the application
+ENTRYPOINT ["sh", "-c", "until nc -z mysql 3306; do echo 'Waiting for MySQL...'; sleep 5; done; java -jar app.jar"]
