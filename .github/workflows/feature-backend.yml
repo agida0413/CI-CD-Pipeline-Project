@@ -35,4 +35,8 @@ jobs:
         run: |
           docker build -t kimyong120413/backend:latest -f ./backend/Dockerfile.commit ./backend
 
+      - name: Run backend tests
+        run: |
+          docker run --rm --network host kimyong120413/backend:latest mvn test
+
        
