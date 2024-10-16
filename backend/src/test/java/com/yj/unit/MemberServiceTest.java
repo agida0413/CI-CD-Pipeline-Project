@@ -3,6 +3,7 @@ package com.yj.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -42,23 +43,22 @@ import jakarta.servlet.http.HttpSession;
 public class MemberServiceTest {
 	
 	@Autowired
-	private MybatisJwtRepository repository;
+	private MybatisMemberRepository repository;
 	
 	
 	
 	@Test
 	public void joinTest() throws Exception {
-	
-		TokenStoreDTO dto= new TokenStoreDTO();
-		dto.setRefresh("asd");
-		dto.setUsername("asd");
-		dto.setExpiration("asd");
 		
-		repository.save(dto);
+		JoinDTO dto = new JoinDTO();
+		dto.setName("1234");
+		dto.setPassword("12341234");
+		dto.setUsername("agida4132");
 		
-		int count=	repository.findRefresh("asd");
+		repository.join(dto);
 		
-		assertThat(count).isEqualTo(1);
-	
+		MemberDTO findDto = repository.findByUsername("agida4132");
+		
+		assertThat(findDto.getUsername()).isEqualTo("agida4132");
 	}
 }

@@ -1,4 +1,6 @@
 -- init.sql
+CREATE DATABASE IF NOT EXISTS test;
+
 USE test;
 
 CREATE TABLE IF NOT EXISTS member (
@@ -17,3 +19,4 @@ CREATE TABLE IF NOT EXISTS token_store (
 
 INSERT INTO member (username, password, name) VALUES ('test', '1234', '12313');
 
+USE test;
