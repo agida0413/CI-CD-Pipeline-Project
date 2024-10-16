@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-        build: .
-        options:  # 여기에 추가
-          env:
-            MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
-            MYSQL_ROOT_PASSWORD: 1234
+      mysql:
+        image: mysql:latest  # MySQL 이미지를 사용
+        env:  # 환경 변수를 여기서 설정
+          MYSQL_DATABASE: test_db  # 사용할 데이터베이스 이름
+          MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
+        volumes:
+          - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일을 컨테이너에 복사
 
     steps:
       - name: Checkout code
@@ -26,7 +28,14 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'temurin'  # 이 줄을 추가합니다.
+          distribution: 'temurin'  # JDK 분포 설정
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to be ready..."
+          while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
+            sleep 1
+          done
 
       - name: Run tests
         run: mvn test -Dspring.profiles.active=commit
