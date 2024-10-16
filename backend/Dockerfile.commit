@@ -6,6 +6,11 @@ WORKDIR /project/backend
 COPY pom.xml .
 COPY src ./src
 
+# Install freetype and Maven
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # MySQL이 준비되면 패키지 빌드
 # RUN mvn clean package 명령을 제거하고, 후에 컨테이너에서 실행
 RUN mvn dependency:go-offline
@@ -13,10 +18,7 @@ RUN mvn dependency:go-offline
 # 2. Stage 2: Prepare to run the application
 FROM openjdk:17-jdk-slim
 
-# Install freetype and Maven
-RUN apt-get update && \
-    apt-get install -y libfreetype6-dev && \
-    rm -rf /var/lib/apt/lists/*
+
 
 WORKDIR /project/backend
 
