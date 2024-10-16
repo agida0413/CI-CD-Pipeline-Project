@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS token_store (
     expiration VARCHAR(100) NOT NULL
 );
 
-INSERT INTO MEMBER (username, password, name) VALUES ('test', '1234', '12313');
+INSERT INTO member (username, password, name) VALUES ('test', '1234', '12313');
