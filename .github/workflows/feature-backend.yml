@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql:
         build: .
         env:
           MYSQL_DATABASE: test
