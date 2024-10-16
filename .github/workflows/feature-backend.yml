@@ -17,8 +17,6 @@ jobs:
           MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
-        volumes:
-          - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일을 컨테이너에 복사
 
 
     steps:
@@ -38,6 +36,11 @@ jobs:
           while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
             sleep 1
           done
+
+      - name: Run init.sql script
+        run: |
+          echo "Executing init.sql script..."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test < ./mysql/init.sql
 
       - name: Run tests
         run: mvn test -Dspring.profiles.active=commit
