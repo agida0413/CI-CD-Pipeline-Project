@@ -10,7 +10,7 @@ COPY src ./src
 
 
 # Package the application
-RUN mvn package -DskipTests
+RUN mvn clean package -DskipTests
 
 
 
