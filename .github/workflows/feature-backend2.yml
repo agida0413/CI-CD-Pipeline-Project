@@ -21,10 +21,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y docker-compose
-          
+
       - name: Start MySQL container
         run: |
-          docker-compose up -d mysql
+          docker-compose -f docker-compose-backendCm.yml up -d mysql
           
       - name: Wait for MySQL to be ready
         run: |
@@ -37,4 +37,4 @@ jobs:
           done
 
       - name: Build and run backend container
-        run: docker-compose up --build backend
+        run: docker-compose up -f docker-compose-backendCm.yml up --build backend
