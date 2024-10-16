@@ -42,7 +42,9 @@ public class MemberServiceTest {
 
 	@Test
 	public void joinTest() throws Exception {
-	   memberRepository.findByUsername("test");
+	 MemberDTO mem=  memberRepository.findByUsername("test");
+	   
+	   assertThat(mem.getUsername()).isEqualTo("test");
 	
 	}
 }
