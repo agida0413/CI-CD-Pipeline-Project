@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+     - feature/backend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Start MySQL container
+        run: |
+          docker-compose up -d mysql
+          
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {1..30}; do
+            if docker-compose exec mysql mysqladmin ping -h"localhost" --silent; then
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+      - name: Build and run backend container
+        run: docker-compose up --build backend
