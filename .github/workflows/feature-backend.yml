@@ -54,4 +54,6 @@ jobs:
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
 
       - name: Run tests
-        run: mvn test -Dspring.profiles.active=commit
+        run: |
+          cd backend  
+          mvn test -Dspring.profiles.active=commit
