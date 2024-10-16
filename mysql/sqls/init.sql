@@ -16,3 +16,4 @@ CREATE TABLE IF NOT EXISTS token_store (
 );
 
 INSERT INTO member (username, password, name) VALUES ('test', '1234', '12313');
+
