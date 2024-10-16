@@ -19,17 +19,15 @@ jobs:
         run: |
           docker compose -f docker-compose-commit.yml up --build -d 
        
-      - name: Wait for MySQL to be ready
-        run: |
-            until docker exec mysql mysqladmin --user=root --password=1234 ping; do
-              echo "Waiting for MySQL..."
-              sleep 5
-            done
-      - name: check      
-        run: | 
-            docker exec backend ls /project/backend      
-      - name: Run backend tests
+      # - name: Wait for MySQL to be ready
+      #   run: |
+      #       until docker exec mysql mysqladmin --user=root --password=1234 ping; do
+      #         echo "Waiting for MySQL..."
+      #         sleep 5
+      #       done
+          
+      # - name: Run backend tests
       
-        run: |
-            docker exec backend mvn test  
+      #   run: |
+      #       docker exec backend mvn test  
   

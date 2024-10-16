@@ -8,11 +8,8 @@ COPY pom.xml .
 
 COPY src ./src
 
-
-
 # Package the application
-RUN mvn clean package -DskipTests
-
+RUN mvn clean package 
 
 
 # 2. Stage 2: Run the application
@@ -28,8 +25,9 @@ WORKDIR /project/backend
 
 # Copy the built JAR file from the build stage
 COPY --from=build /project/backend/target/*.jar app.jar
-COPY --from=build /project/backend/pom.xml pom.xml
-COPY --from=build /project/backend/src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar /project/backend/src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar
+# COPY --from=build /project/backend/pom.xml pom.xml
+# COPY --from=build /project/backend/src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar /project/backend/src/main/webapp/WEB-INF/lib/simplecaptcha-1.2.1.jar
+
 
 # Start the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
