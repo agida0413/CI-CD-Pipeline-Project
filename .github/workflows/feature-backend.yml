@@ -17,7 +17,7 @@ jobs:
 
       - name: Build and start services
         run: |
-          docker-compose -f docker-compose.commit.yml up -d --build
+          docker-compose -f docker-compose-commit.yml up -d --build
 
       - name: Wait for MySQL to be ready
         run: |
