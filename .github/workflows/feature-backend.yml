@@ -20,6 +20,7 @@ jobs:
         volumes:
           - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql  # SQL 파일을 컨테이너에 복사
 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
