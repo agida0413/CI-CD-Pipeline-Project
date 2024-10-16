@@ -6,8 +6,9 @@ services:
       context: ./backend
     container_name: backend
     depends_on:
-      mysql:
-        condition: service_healthy  # MySQL이 healthy 상태일 때 시작
+      - mysql
+      # mysql:
+      #   condition: service_healthy  # MySQL이 healthy 상태일 때 시작
     ports: 
       - "8080:8080"
   mysql:
@@ -19,8 +20,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: test
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "mysql"]
-      interval: 10s
-      timeout: 5s
-      retries: 3  
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping", "-h", "mysql"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3  
