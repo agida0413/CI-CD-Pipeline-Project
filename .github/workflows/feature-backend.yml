@@ -20,10 +20,10 @@ jobs:
 
       - name: Start MySQL and backend services
         run: |
-          docker run -d --name mysql 
-            -e MYSQL_ROOT_PASSWORD=1234 
-            -e MYSQL_DATABASE=test 
-            -p 3306:3306 
+          docker run -d --name mysql \
+            -e MYSQL_ROOT_PASSWORD=1234 \
+            -e MYSQL_DATABASE=test \
+            -p 3306:3306 \
             kimyong120413/mysql:latest
       - name: Wait for MySQL to be ready
         run: |
