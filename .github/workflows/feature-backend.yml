@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:latest  # MySQL 이미지를 사용
         env:  # 환경 변수를 여기서 설정
-          MYSQL_DATABASE: test_db  # 사용할 데이터베이스 이름
+          MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
           MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
@@ -46,7 +46,7 @@ jobs:
         run: |
           echo "Executing init.sql script..."
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test < ./mysql/init.sql
-          
+
       - name: Check database and tables
         run: |
           echo "Checking if database and tables are created..."
