@@ -5,8 +5,9 @@ WORKDIR /project/backend
 
 COPY pom.xml .
 # Copy the pom.xml and install dependencies
-COPY src/main/webapp/WEB-INF/lib /project/backend/src/main/webapp/WEB-INF/lib/
+
 COPY src ./src
+COPY src/main/webapp/WEB-INF/lib /project/backend/src/main/webapp/WEB-INF/lib/
 
 
 # Package the application

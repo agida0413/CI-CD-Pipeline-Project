@@ -17,7 +17,7 @@ jobs:
         
       - name: Start MySQL and backend services
         run: |
-          docker compose -f docker-compose-commit.yml up --build --no-cache 
+          docker compose -f docker-compose-commit.yml up --build -d 
        
       - name: Wait for MySQL to be ready
         run: |
