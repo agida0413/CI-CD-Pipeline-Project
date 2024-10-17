@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
 		String key=UUID.randomUUID()+"[CAPTHA]:[ANSWER]"; 
 		
 		session.setAttribute(key, captcha.getAnswer());
-	
+		System.out.println(key);
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ImageIO.write(captcha.getImage(),"png" , bos);
 		String image = Base64.getEncoder().encodeToString(bos.toByteArray());
@@ -67,6 +67,9 @@ public class MemberServiceImpl implements MemberService {
 	public ResponseEntity<ResponseApi<?>> join (JoinDTO joinDTO,HttpSession session) throws Exception{
 		String captcha=joinDTO.getCaptcha();
 		String answer=(String)session.getAttribute(joinDTO.getCaptchaKey());
+		System.out.println(captcha);
+		System.out.println(answer);
+		System.out.println(joinDTO.getCaptchaKey());
 		if(answer==null) {
 			throw new Exception("키값이 존재하지 않습니다.");
 		}
