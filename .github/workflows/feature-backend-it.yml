@@ -3,12 +3,11 @@ name: CI-it
 on:
   pull_request:
     branches:
-      - release
+      - develop  # PR이 머지될 브랜치
+      - master    # PR이 머지될 브랜치
     types: 
       - opened     # PR 생성 시
-      - synchronize # PR 업데이트 시
-      - reopened    # PR 재오픈 시
-
+     
 jobs:
   build:
     runs-on: ubuntu-latest
