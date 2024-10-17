@@ -13,7 +13,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql:latest  
+        image: 
         env:  
           MYSQL_DATABASE: 
           MYSQL_ROOT_PASSWORD: 1234
