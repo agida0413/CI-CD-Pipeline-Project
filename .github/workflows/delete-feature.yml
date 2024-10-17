@@ -1,18 +1,18 @@
-name: Delete Feature Branch
+# name: Delete Feature Branch
 
-on:
-  pull_request:
-    types: [closed]  # PR이 닫힐 때(머지 후 포함)
+# on:
+#   pull_request:
+#     types: [closed]  # PR이 닫힐 때(머지 후 포함)
 
-jobs:
-  delete-branch:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'feature/')  # PR이 머지되고, 브랜치가 feature로 시작하는 경우
-    runs-on: ubuntu-latest
+# jobs:
+#   delete-branch:
+#     if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'feature/')  # PR이 머지되고, 브랜치가 feature로 시작하는 경우
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
       
-      - name: Delete feature branch
-        run: |
-          git push origin --delete ${{ github.head_ref }}
+#       - name: Delete feature branch
+#         run: |
+#           git push origin --delete ${{ github.head_ref }}
