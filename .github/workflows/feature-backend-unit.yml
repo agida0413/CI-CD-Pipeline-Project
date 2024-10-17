@@ -15,7 +15,13 @@ jobs:
     - name: Build Docker image
       run: docker build -f ./backend/Dockerfile.commit -t backendunit ./backend
 
+    - name: Run the application
+      run: |
+        # Run the application in detached mode
+        docker run -d --name backendapp backendunit
+
     - name: Run unit tests
       run: |
-        # Run the unit tests using the Maven wrapper
-        docker run --rm backendunit ./mvnw test
+        # Run the unit tests using the Maven wrapper in the running container
+        docker exec backendapp ./mvnw test
+
