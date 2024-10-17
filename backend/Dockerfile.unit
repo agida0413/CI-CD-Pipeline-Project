@@ -9,12 +9,11 @@ RUN apt-get update && \
 # Copy pom.xml and install dependencies
 COPY pom.xml .
 
-
+COPY . .
 # Copy source files
 COPY src ./src
-RUN mvn test -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
 # Build the application, skipping unit tests
-RUN mvn clean package 
+RUN mvn clean package -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
 
 # Stage 2: Run the application
 FROM openjdk:17-jdk-slim
