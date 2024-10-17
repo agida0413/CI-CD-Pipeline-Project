@@ -6,8 +6,7 @@ on:
       - develop  # PR이 머지될 브랜치
       - master    # PR이 머지될 브랜치
     types: 
-      - closed     # PR이 닫힐 때 (머지 또는 닫힘)
-
+      - opened     # PR 생성 시
      
 jobs:
   build:
@@ -67,4 +66,4 @@ jobs:
       - name: Run Integration Tests
         run: |
           cd backend
-          mvn verify -Dskip.unit.tests=true -Dskip.integration.tests=false -Dspring.profiles.active=commit
+          mvn verify -Dskip.unit.tests=true -Dskip.integration.tests=false 
