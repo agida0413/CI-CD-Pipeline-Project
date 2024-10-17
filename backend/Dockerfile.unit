@@ -9,6 +9,9 @@ RUN mvn dependency:go-offline
 
 # Copy source files
 COPY src ./src
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev maven && \
+    rm -rf /var/lib/apt/lists/*
 
 # Build the application, skipping unit tests
 RUN mvn clean package -Dskip.unit.tests=false -Dskip.integration.tests=true
