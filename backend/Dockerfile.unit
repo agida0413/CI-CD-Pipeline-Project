@@ -1,0 +1,33 @@
+
+FROM maven:latest AS build
+
+WORKDIR /project/backend
+
+COPY pom.xml .
+# Copy the pom.xml and install dependencies
+
+COPY src ./src
+
+# Install freetype and Maven
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev maven && \
+    rm -rf /var/lib/apt/lists/*
+
+
+RUN mvn clean package -Dskip.unit.tests=false -Dskip.integration.tests=true
+
+
+# 2. Stage 2: Run the application
+FROM openjdk:17-jdk-slim
+
+
+
+# Set the working directory
+WORKDIR /project/backend
+
+
+# Copy the built JAR file from the build stage
+COPY --from=build /project/backend/target/*.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]
+
