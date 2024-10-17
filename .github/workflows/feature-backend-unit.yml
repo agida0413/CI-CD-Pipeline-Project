@@ -15,17 +15,17 @@ jobs:
     - name: Build Docker image
       run: docker build -f ./backend/Dockerfile.commit -t backendunit ./backend
 
+    - name: Run the container
+      run: docker run -d --name backendapp backendunit
+
     - name: Run unit tests
       run: |
-        # Start the container in detached mode without running the application
-        docker create --name backendapp backendunit
+        # Wait for a few seconds to ensure the application is ready
+        sleep 10
         
-        # Extract the JAR file from the container to the host
-        docker cp backendapp:/project/backend/app.jar ./app.jar
-        
-        # Remove the container as it's not needed anymore
-        docker rm backendapp
+        # Run the unit tests in the running container
+        docker exec backendapp java -cp /project/backend/app.jar 
 
-        # Run all unit tests in the specified package
-        java -cp ./app.jar org.junit.runner.JUnitCore com.yj.unit.*
+        # Optionally, stop the container after tests are done
+        docker stop backendapp
 
