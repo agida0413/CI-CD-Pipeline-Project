@@ -20,6 +20,7 @@ jobs:
         # Run the application in detached mode
         docker run -d --name backendapp backendunit
 
+
     - name: Run unit tests
       run: |
         # Run the unit tests using the Maven wrapper in the running container
