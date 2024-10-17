@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-     # - feature/backend/**
+      - feature/backend/**
 
 jobs:
   build:
@@ -11,9 +11,9 @@ jobs:
 
     services:
       mysql:
-        image: mysql:latest  # MySQL 이미지를 사용
-        env:  # 환경 변수를 여기서 설정
-          MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
+        image: mysql:latest  
+        env:  
+          MYSQL_DATABASE: test 
           MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
@@ -44,15 +44,16 @@ jobs:
 
       - name: Run init.sql script
         run: |
-          echo "Executing init.sql script..."
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test < ./mysql/init.sql
+            echo "$INIT_SQL_CONTENT" | mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test
+        env:
+            INIT_SQL_CONTENT: ${{ secrets.INIT_SQL_CONTENT }}
 
       - name: Check database and tables
         run: |
           echo "Checking if database and tables are created..."
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
-
+          
       - name: Run tests
         run: |
           cd backend  

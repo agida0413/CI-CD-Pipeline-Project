@@ -38,4 +38,4 @@ jobs:
 
           
       - name: Build and run backend container
-        run: docker-compose up -f docker-compose-backendCm.yml up --build backend
+        run: docker-compose -f docker-compose-backendCm.yml up --build backend

@@ -17,8 +17,9 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: docker.commit  # Dockerfile 이름 지정
+      dockerfile: Dockerfile.commit  # Dockerfile 이름 지정
     environment:
+      SPRING_PROFILES_ACTIVE: commit  # 환경 변수 설정
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
