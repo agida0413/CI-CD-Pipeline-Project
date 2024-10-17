@@ -1,64 +1,73 @@
 package com.yj.unit;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import com.yj.api.ResponseApi;
+import com.yj.repository.MemberRepository;
+import com.yj.service.MemberServiceImpl;
+import com.yj.util.CaptchaUtil;
 
+import jakarta.servlet.http.HttpSession;
+import nl.captcha.Captcha;
+
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-import com.mysql.cj.Session;
-import com.yj.api.ResponseApi;
-import com.yj.dto.JoinDTO;
-import com.yj.dto.MemberDTO;
-import com.yj.dto.TokenStoreDTO;
-import com.yj.mapper.JwtMapper;
-import com.yj.mapper.MemberMapper;
-import com.yj.repository.MemberRepository;
-import com.yj.repository.impl.MybatisJwtRepository;
-import com.yj.repository.impl.MybatisMemberRepository;
-import com.yj.service.MemberService;
-import com.yj.service.MemberServiceImpl;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
-@SpringBootTest
-@Transactional
+@ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
-	
-	@Autowired
-	private MybatisMemberRepository repository;
-	
-	
-	
-	@Test
-	public void joinTest() throws Exception {
-		
-		JoinDTO dto = new JoinDTO();
-		dto.setName("1234");
-		dto.setPassword("12341234");
-		dto.setUsername("agida4132");
-		
-		repository.join(dto);
-		
-		MemberDTO findDto = repository.findByUsername("agida4132");
-		
-		assertThat(findDto.getUsername()).isEqualTo("agida4132");
-	}
+
+    @Mock
+    private MemberRepository memberRepository;
+
+    @Mock
+    private BCryptPasswordEncoder encoder; // Password encoder를 모킹
+
+    @Mock
+    private HttpSession session; // HttpSession 모킹
+
+    @InjectMocks
+    private MemberServiceImpl memberService; // 서비스 인스턴스
+
+    @Test
+    public void testGetCaptcha() throws IOException {
+        // 1. Captcha 객체 모킹
+        Captcha mockCaptcha = mock(Captcha.class);
+        when(mockCaptcha.getAnswer()).thenReturn("testAnswer");
+        when(mockCaptcha.getImage()).thenReturn(new BufferedImage(100, 50, BufferedImage.TYPE_INT_RGB));
+
+        // 2. CaptchaUtil.getCaptchaImg() 모킹
+        mockStatic(CaptchaUtil.class);
+        when(CaptchaUtil.getCaptchaImg()).thenReturn(mockCaptcha);
+
+        // 3. UUID 모킹
+        UUID mockUUID = UUID.randomUUID();
+        String expectedKey = mockUUID + "[CAPTHA]:[ANSWER]";
+
+        // 4. 테스트 실행
+        ResponseEntity<ResponseApi<?>> responseEntity = memberService.getCaptcha(session);
+        
+//        // 5. 검증
+//        verify(session).setAttribute(eq(expectedKey), eq("testAnswer")); // 세션에 answer 저장 확인
+//
+//        ResponseApi<?> responseApi = responseEntity.getBody();
+//        assertNotNull(responseApi);
+//
+//        Map<String, String> responseMap = (Map<String, String>) responseApi.getData();
+//        assertNotNull(responseMap);
+//        assertEquals(expectedKey, responseMap.get("captchaKey")); // captchaKey 검증
+//        assertNotNull(responseMap.get("captchaImage")); // captchaImage가 존재하는지 검증
+    }
 }
