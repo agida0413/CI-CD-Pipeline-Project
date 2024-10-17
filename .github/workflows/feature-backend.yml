@@ -54,13 +54,13 @@ jobs:
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
 
-      - name: Set up application properties
-        run: |
-            echo "Setting up application properties..."
-            echo "spring.profiles.active=commit" >> backend/src/main/resources/application.properties
-            echo "spring.datasource.url=${{ secrets.DB_URL }}" >> backend/src/main/resources/application-commit.properties
-            echo "spring.datasource.username=${{ secrets.DB_USER }}" >> backend/src/main/resources/application-commit.properties
-            echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> backend/src/main/resources/application-commit.properties
+      # - name: Set up application properties
+      #   run: |
+      #       echo "Setting up application properties..."
+      #       echo "spring.profiles.active=commit" >> backend/src/main/resources/application.properties
+      #       echo "spring.datasource.url=${{ secrets.DB_URL }}" >> backend/src/main/resources/application-commit.properties
+      #       echo "spring.datasource.username=${{ secrets.DB_USER }}" >> backend/src/main/resources/application-commit.properties
+      #       echo "spring.datasource.password=${{ secrets.DB_PASSWORD }}" >> backend/src/main/resources/application-commit.properties
           
       - name: Run tests
         run: |
