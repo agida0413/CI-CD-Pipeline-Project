@@ -11,9 +11,7 @@ COPY src ./src
 # MySQL이 준비되면 패키지 빌드
 RUN mvn clean package -Dmaven.test.skip=true
 
-RUN apt-get update && \
-    apt-get install -y libfreetype6-dev maven && \
-    rm -rf /var/lib/apt/lists/*
+
 # 2. Stage 2: Run the application
 FROM openjdk:17-jdk-slim
 
