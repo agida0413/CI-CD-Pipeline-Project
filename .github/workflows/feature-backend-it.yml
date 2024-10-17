@@ -26,12 +26,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           clean: false  # 클린 비활성화
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'  # JDK 분포 설정
-
+          
       - name: Wait for MySQL to be ready
         run: |
           echo "Waiting for MySQL to be ready..."
@@ -62,4 +57,4 @@ jobs:
 
       - name: Build Docker image / Run Unit Tests / IT TEST
         run: |
-             docker build -f ./backend/Dockerfile.it -t backendunit ./backend 
+             docker build -f ./backend/Dockerfile.it -t backendit ./backend 
