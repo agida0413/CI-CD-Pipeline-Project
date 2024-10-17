@@ -19,11 +19,8 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Docker image
+      - name: Build Docker image / Run Unit Tests
         run: |
-             docker build -f ./backend/Dockerfile.unit -t backendunit ./backend  
+             docker build -f ./backend/Dockerfile.unit -t backendunit ./backend 
 
 
-      - name: Run Unit Tests
-        run: |
-          docker run backendunit
