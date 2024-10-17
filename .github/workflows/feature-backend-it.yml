@@ -3,8 +3,7 @@ name: CI-it
 on:
   pull_request:
     branches:
-      - develop  # PR이 머지될 브랜치
-      - master    # PR이 머지될 브랜치
+      - release
     types: 
       - opened     # PR 생성 시
       - synchronize # PR 업데이트 시
