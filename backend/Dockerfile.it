@@ -15,4 +15,4 @@ COPY src ./src
 
 
 # Run the application
-ENTRYPOINT ["mvn", "test", "-DskipTests=false"]
+ENTRYPOINT ["mvn", "verify", "-DskipTests=false"]
