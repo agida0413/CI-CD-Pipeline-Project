@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - feature/backend/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -f ./backend/Dockerfile.commit -t backendunit ./backend
+
+    - name: Run the container
+      run: docker run -d --name backendapp backendunit
+
+    - name: Wait for the container to be healthy
+      run: |
+        for i in {1..10}; do
+          if [ "$(docker inspect -f '{{.State.Health.Status}}' backendapp 2>/dev/null)" == "healthy" ]; then
+            echo "Container is healthy."
+            break
+          fi
+          echo "Waiting for the container to be healthy..."
+          sleep 5
+        done
+
+    - name: Run unit tests
+      run: |
+        # Run the unit tests in the running container
+        docker exec backendapp java -cp /project/backend/app.jar org.junit.runner.JUnitCore com.yj.unit.*
+
+    - name: Stop the container after tests are done
+      run: docker stop backendapp
+
