@@ -33,4 +33,3 @@ RUN chmod +x mvnw
 COPY --from=build /project/backend/target/*.jar app.jar
 
 
-
