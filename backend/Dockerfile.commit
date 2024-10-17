@@ -7,12 +7,9 @@ COPY pom.xml .
 # Copy the pom.xml and install dependencies
 
 COPY src ./src
-COPY src/main/webapp/WEB-INF/lib /project/backend/src/main/webapp/WEB-INF/lib/
 
-
-# Package the application
-RUN mvn clean package -DskipTests
-
+# MySQL이 준비되면 패키지 빌드
+RUN mvn clean package 
 
 
 # 2. Stage 2: Run the application

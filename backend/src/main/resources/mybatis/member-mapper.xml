@@ -8,7 +8,7 @@
 <mapper namespace="com.yj.mapper.MemberMapper">
 <select id="findByUsername" parameterType="String">
          SELECT *
-           FROM MEMBER 
+           FROM member 
           WHERE username = #{username} 
                 
 </select>

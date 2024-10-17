@@ -1,35 +1,59 @@
-name: BackEnd-Feature
+name: CI
+
 on:
   push:
     branches:
-      - feature/backend/**
+     # - feature/backend/**
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest  # MySQL 이미지를 사용
+        env:  # 환경 변수를 여기서 설정
+          MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306
+
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+        with:
+          clean: false  # 클린 비활성화
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  # JDK 분포 설정
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-        
-      - name: Start MySQL and backend services
-        run: |
-          docker compose -f docker-compose-commit.yml up --build -d 
-       
       - name: Wait for MySQL to be ready
         run: |
-            until docker exec mysql mysqladmin --user=root --password=1234 ping; do
-              echo "Waiting for MySQL..."
-              sleep 5
-            done
-      - name: check      
-        run: | 
-            docker exec backend ls /project/backend      
-      - name: Run backend tests
-      
+          echo "Waiting for MySQL to be ready..."
+          while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
+            sleep 1
+          done
+          
+      - name: Create database
         run: |
-            docker exec backend mvn test  
-  
+          echo "Creating database..."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS test;"
+
+      - name: Run init.sql script
+        run: |
+          echo "Executing init.sql script..."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test < ./mysql/init.sql
+
+      - name: Check database and tables
+        run: |
+          echo "Checking if database and tables are created..."
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
+          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
+
+      - name: Run tests
+        run: |
+          cd backend  
+          mvn test -Dspring.profiles.active=commit
