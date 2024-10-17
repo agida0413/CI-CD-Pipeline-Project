@@ -15,12 +15,6 @@ jobs:
     - name: Build Docker image
       run: docker build -f ./backend/Dockerfile.commit -t backendunit ./backend
 
-    - name: Run the application
-      run: |
-        # Run the application in detached mode
-        docker run -d --name backendapp backendunit
-
-
     - name: Run unit tests
       run: |
         # Start the container in detached mode
