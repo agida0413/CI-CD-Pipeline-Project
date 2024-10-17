@@ -1,11 +1,11 @@
-name: CI
+name: CI-it
 
 on:
   pull_request:
     branches:
       - devlop  # PR이 머지될 브랜치
       - master # PR이 머지될 브랜치
-    types: [closed]  # PR이 닫힐 때만 실행
+    types: [opened, synchronize, reopened]  # PR 생성, 업데이트 및 재오픈 시 실행
 
 jobs:
   build:
