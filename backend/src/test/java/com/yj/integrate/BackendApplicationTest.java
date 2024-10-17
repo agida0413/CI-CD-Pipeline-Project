@@ -14,7 +14,7 @@ import com.yj.repository.impl.MybatisMemberRepository;
 
 @SpringBootTest
 @Transactional
-class BackendApplicationIT {
+class BackendApplicationTest {
 
 	
 	
