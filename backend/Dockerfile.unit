@@ -2,6 +2,9 @@
 FROM maven:latest AS build
 
 WORKDIR /project/backend
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy pom.xml and install dependencies
 COPY pom.xml .
@@ -9,15 +12,10 @@ COPY pom.xml .
 
 # Copy source files
 COPY src ./src
-RUN apt-get update && \
-    apt-get install -y libfreetype6-dev maven && \
-    rm -rf /var/lib/apt/lists/*
 
 # Build the application, skipping unit tests
 RUN mvn clean package -Dskip.unit.tests=false -Dskip.integration.tests=true
-RUN apt-get update && \
-    apt-get install -y libfreetype6-dev maven && \
-    rm -rf /var/lib/apt/lists/*
+
 # Stage 2: Run the application
 FROM openjdk:17-jdk-slim
 
