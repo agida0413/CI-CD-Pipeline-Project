@@ -7,7 +7,6 @@ on:
       - master    # PR이 머지될 브랜치
     types: 
       - opened     # PR 생성 시
-     
 jobs:
   build:
     runs-on: ubuntu-latest
