@@ -23,6 +23,15 @@ jobs:
 
     - name: Run unit tests
       run: |
+        # Start the container in detached mode
+        docker run -d --name backendapp backendunit
+          
+        # Wait for a few seconds to ensure the application is fully started
+        sleep 10
+          
         # Run the unit tests using the Maven wrapper in the running container
         docker exec backendapp ./mvnw test
+
+        # Stop the container after tests are done
+        docker stop backendapp
 
