@@ -4,18 +4,23 @@ on:
   push:
     branches:
       - feature/backend/**
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Build Docker image
-      run: docker build -f ./backend/Dockerfile.commit -t backendUnit ./backend
-
-    - name: Run unit tests
-      run: |
-        # Run the unit tests using the Maven wrapper
-        docker run --rm backendUnit ./mvnw test
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          clean: false  # 클린 비활성화
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  # JDK 분포 설정
+    
+      - name: Run Unit Tests
+        run: |
+          cd backend
+          mvn test -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
