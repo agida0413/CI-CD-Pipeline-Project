@@ -11,9 +11,9 @@ jobs:
 
     services:
       mysql:
-        image: mysql:latest  # MySQL 이미지를 사용
-        env:  # 환경 변수를 여기서 설정
-          MYSQL_DATABASE: test  # 사용할 데이터베이스 이름
+        image: mysql:latest  
+        env:  
+          MYSQL_DATABASE: test 
           MYSQL_ROOT_PASSWORD: 1234
         ports:
           - 3306:3306
