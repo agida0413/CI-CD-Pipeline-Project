@@ -26,10 +26,6 @@ jobs:
             username: ${{ secrets.DOCKER_USERNAME }}  # GitHub Secrets에 Docker Hub 사용자명 저장
             password: ${{ secrets.DOCKER_PASSWORD }}  # GitHub Secrets에 Docker Hub 비밀번호 저장
   
-      - name: Pull Docker image from Docker Hub
-        run: |
-            docker pull myusername/my-backend-image:latest  # Docker Hub에서 이미지 가져오기
-  
       - name: Run Docker container
         run: |
             docker compose -f docker-compose-backe-feature.yml up 
