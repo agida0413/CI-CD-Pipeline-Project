@@ -9,7 +9,7 @@ RUN apt-get update && \
 # Copy pom.xml and install dependencies
 COPY pom.xml .
 
-COPY . .
+
 # Copy source files
 COPY src ./src
 # Build the application, skipping unit tests

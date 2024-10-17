@@ -59,15 +59,15 @@ public class MemberServiceTest {
         // 4. 테스트 실행
         ResponseEntity<ResponseApi<?>> responseEntity = memberService.getCaptcha(session);
         
-//        // 5. 검증
-//        verify(session).setAttribute(eq(expectedKey), eq("testAnswer")); // 세션에 answer 저장 확인
-//
-//        ResponseApi<?> responseApi = responseEntity.getBody();
-//        assertNotNull(responseApi);
-//
-//        Map<String, String> responseMap = (Map<String, String>) responseApi.getData();
-//        assertNotNull(responseMap);
-//        assertEquals(expectedKey, responseMap.get("captchaKey")); // captchaKey 검증
-//        assertNotNull(responseMap.get("captchaImage")); // captchaImage가 존재하는지 검증
+        // 5. 검증
+        verify(session).setAttribute(eq(expectedKey), eq("testAnswer")); // 세션에 answer 저장 확인
+
+        ResponseApi<?> responseApi = responseEntity.getBody();
+        assertNotNull(responseApi);
+
+        Map<String, String> responseMap = (Map<String, String>) responseApi.getData();
+        assertNotNull(responseMap);
+        assertEquals(expectedKey, responseMap.get("captchaKey")); // captchaKey 검증
+        assertNotNull(responseMap.get("captchaImage")); // captchaImage가 존재하는지 검증
     }
 }
