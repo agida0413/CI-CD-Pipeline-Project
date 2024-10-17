@@ -14,7 +14,7 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean verify
 # Build the application, skipping unit tests
-RUN mvn clean package -Dskip.unit.tests=true -Dskip.integration.tests=false -B -Dmaven.test.failure.ignore=false | tee test-results.log
+RUN mvn clean package 
 
 # Stage 2: Run the application
 FROM openjdk:17-jdk-slim

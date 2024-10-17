@@ -33,7 +33,7 @@ class BackendApplicationIT {
 		
 		repository.join(dto);
 		
-		MemberDTO findDto = repository.findByUsername("");
+		MemberDTO findDto = repository.findByUsername("agida4132");
 		
 		assertThat(findDto.getUsername()).isEqualTo("agida4132");
 	}
