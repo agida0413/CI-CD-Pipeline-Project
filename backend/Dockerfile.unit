@@ -14,7 +14,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application, skipping unit tests
-RUN mvn clean package -Dskip.unit.tests=true -Dskip.integration.tests=false -Dspring.profiles.active=commit
+RUN mvn clean package -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
 
 # Stage 2: Run the application
 FROM openjdk:17-jdk-slim
