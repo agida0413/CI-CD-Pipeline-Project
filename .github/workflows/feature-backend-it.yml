@@ -54,7 +54,13 @@ jobs:
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
           
-      - name: Run tests
+
+      - name: Run Unit Tests
         run: |
-          cd backend  
-          mvn test -Dspring.profiles.active=commit
+          cd backend
+          mvn test -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
+
+      - name: Run Integration Tests
+        run: |
+          cd backend
+          mvn verify -Dskip.unit.tests=true -Dskip.integration.tests=false -Dspring.profiles.active=commit
