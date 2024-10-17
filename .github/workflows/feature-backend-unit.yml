@@ -24,7 +24,7 @@ jobs:
         sleep 10
 
         # Run the unit tests using the JAR file
-        docker exec backendapp java -cp /project/backend/app.jar:/path/to/junit.jar org.junit.runner.JUnitCore com.yj.unit.*
+        docker exec backendapp java -jar app.jar
 
         # Stop the container after tests are done
         docker stop backendapp
