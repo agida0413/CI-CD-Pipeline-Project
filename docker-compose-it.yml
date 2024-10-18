@@ -11,11 +11,11 @@ services:
     ports: 
       - "8080:8080"  
   mysql:
-    image: kimyong120413/mysql:test
+    image: kimyong120413/mysql:test2
     environment:
       MYSQL_DATABASE: test
       MYSQL_ROOT_PASSWORD: 1234
     ports:
-      - "3306:3306"
+      - "3307:3306"
     restart: unless-stopped
     container_name: mysql

@@ -15,12 +15,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           clean: false  # 클린 비활성화
-   
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build Docker image / Run Unit Tests
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'  # JDK 분포 설정
+    
+      - name: Run Unit Tests
         run: |
-             docker build -f ./backend/Dockerfile.unit -t backendunit ./backend 
-
-
+          cd backend
+          mvn test -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit

@@ -1,7 +1,7 @@
 -- init.sql
-CREATE DATABASE IF NOT EXISTS myapp;
+CREATE DATABASE IF NOT EXISTS test;
 
-USE myapp;
+USE test;
 
 CREATE TABLE IF NOT EXISTS member (
     id_num INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS token_store (
 
 INSERT INTO member (username, password, name) VALUES ('test', '1234', '12313');
 
-USE myapp;
+USE test;
