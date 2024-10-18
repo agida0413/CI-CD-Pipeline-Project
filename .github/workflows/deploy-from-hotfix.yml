@@ -1,28 +1,33 @@
 name: HOTFIX RE-DEPLOY [CD]
 
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types: 
+      - opened     # PR 생성 시
+      - synchronize # PR이 업데이트될 때 (커밋 추가 등)
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.ref, 'refs/heads/hotfix-')
+    if: startsWith(github.event.pull_request.head.ref, 'hotfix-')
     steps:
       - uses: actions/checkout@v3
 
       - name: Get PR source branch name
         id: get_branch_name
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"  # PR을 보낸 브랜치 이름 추출
-          echo "Branch name: $BRANCH_NAME"
+          # 대신, github.event.pull_request.head.ref 사용
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          echo "Pull Request source branch: $BRANCH_NAME"
 
-          # 버전 값 추출 (예: hotfix-0.1.0)
-          if [[ $BRANCH_NAME =~ ^hotfix-(.*\..*)$ ]]; then
+          # 버전 값 추출 (예: hotfix-0.0.1)
+          if [[ $BRANCH_NAME =~ ^hotfix-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
             VERSION="${BASH_REMATCH[1]}"
             echo "VERSION=${VERSION}" >> $GITHUB_ENV
           else
             echo "No version found in branch name."
+            exit 1  # 버전이 없을 경우 실패
           fi
 
       - name: Login Docker
@@ -67,15 +72,15 @@ jobs:
 
 
       - name: Generate deployment package
-        run: zip -r deploy.zip docker-compose-deploy.yml 
+        run:  zip -r deploy.zip . -x "*.git*" 
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: docker-full
-          environment_name: Docker-full-env 
+          application_name: ${{secrets.AWS_APPLICATION_NAME}}
+          environment_name: ${{secrets.AWS_ENV_NAME}}
           existing_bucket_name: ${{ secrets.AWS_BUCKET_NAME}}
           region: ap-northeast-2
           version_label: ${{ github.sha }}
