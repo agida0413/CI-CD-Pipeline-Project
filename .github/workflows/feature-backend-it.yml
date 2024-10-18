@@ -1,17 +1,10 @@
 name: CI-it
 
-# on:
-#   pull_request:
-#     branches:
-#       - devlop  # PR이 머지될 브랜치
-#       - master    # PR이 머지될 브랜치
-#     types: 
-#       - opened     # PR 생성 시
-
 on:
   push:
     branches:
       - feature/backend/**
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,12 +18,9 @@ jobs:
         ports:
           - 3306:3306
 
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          clean: false  # 클린 비활성화
 
       - name: Wait for MySQL to be ready
         run: |
@@ -38,10 +28,9 @@ jobs:
           while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
             sleep 1
           done
-          
+
       - name: Create database
         run: |
-          echo "Creating database..."
           mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS test;"
 
       - name: Run init.sql script
@@ -50,25 +39,32 @@ jobs:
         env:
             INIT_SQL_CONTENT: ${{ secrets.INIT_SQL_CONTENT }}
 
-      - name: Check database and tables
-        run: |
-          echo "Checking if database and tables are created..."
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
-          
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: Build Docker image
         run: |
           docker build -f ./backend/Dockerfile.it -t backendit ./backend
 
-      - name: Run Docker container and execute tests
+      - name: Run backend container
         run: |
           docker run --name backendit-container -d -p 8080:8080 backendit
           echo "Waiting for the backend service to start..."
           sleep 10  # 서비스가 시작될 시간을 줌
-          docker exec backendit-container mvn test  # Maven 통합 테스트 실행
+
+      - name: Check backend service health
+        run: |
+          for i in {1..10}; do
+            if curl -f http://localhost:8080/your-endpoint; then
+              echo "Service is up!"
+              break
+            fi
+            echo "Waiting for service..."
+            sleep 5
+          done
+
+      - name: Run integration tests
+        run: |
+          docker run --rm --network host backendit-test  # 테스트 컨테이너를 실행
+
+      - name: Stop and remove backend container
+        run: |
           docker stop backendit-container
           docker rm backendit-container

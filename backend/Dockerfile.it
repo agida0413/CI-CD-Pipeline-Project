@@ -1,21 +1,13 @@
-# Stage 1: Build the application
-FROM maven:latest AS build
+# Dockerfile.test
+FROM maven:3.8.5-openjdk-11 AS build
 
 WORKDIR /project/backend
 
-RUN apt-get update && \
-    apt-get install -y libfreetype6-dev && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy pom.xml and install dependencies
 COPY pom.xml .
-
-# Copy source files
 COPY src ./src
+
+# Maven을 이용해 패키징
 RUN mvn clean package -DskipTests
 
-FROM openjdk:17-jdk-slim
-
-COPY --from=build /project/backend/target/*.jar app.jar
-# Run the application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# 테스트 실행
+CMD ["mvn", "test"]
