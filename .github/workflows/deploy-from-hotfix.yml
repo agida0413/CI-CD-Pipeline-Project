@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-    types: 
-      - opened
-      - synchronize # PR이 업데이트될 때 (커밋 추가 등)
 jobs:
   build:
     runs-on: ubuntu-latest
