@@ -3,15 +3,32 @@ name: CI-it
 on:
   pull_request:
     branches:
-      - release  # PR이 머지될 브랜치
+      - release/*  # PR이 머지될 브랜치
     types: 
-      - opened     # PR 생성 시
+      - closed   
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:      
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Get source branch name
+        id: get_branch_name
+        run: |
+          # Get the source branch name
+          SOURCE_BRANCH="${GITHUB_HEAD_REF}"  # This gets the branch name that is being merged
+
+          # Log the branch name
+          echo "Source branch: $SOURCE_BRANCH"
+
+          # Optionally extract version if it's in the format release/*.*.*
+          if [[ $SOURCE_BRANCH =~ ^release/(.*\..*)$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+            echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          else
+            echo "No version found in branch name."
+          fi
 
       - name: Log in to Docker Hub
         run: |
@@ -40,18 +57,18 @@ jobs:
       #이미지 빌드 
       - name: Backend Image hub push
         run: |
-          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend/release:0.0.1 .
-          docker push kimyong120413/cicdbackend/release:0.0.1
+          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend:${{ env.VERSION }} .
+          docker push kimyong120413/cicdbackend:${{ env.VERSION }}
 
       - name: Frontend Image hub push
         run: |
-            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend/release:0.0.1 .
-            docker push kimyong120413/cicdfrontend/release:0.0.1
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }}
+            docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
 
       - name: nginx Image hub push
         run: |
-            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx/release:0.0.1 .
-            docker push kimyong120413/cicdnginx/release:0.0.1      
+            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx:${{ env.VERSION }}
+            docker push kimyong120413/cicdnginx:${{ env.VERSION }}      
   
 
 
