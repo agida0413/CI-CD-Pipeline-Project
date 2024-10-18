@@ -40,12 +40,12 @@ jobs:
 
       - name: Frontend Image hub push
         run: |
-            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }}
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
             docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
 
       - name: nginx Image hub push
         run: |
-            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx:${{ env.VERSION }}
+            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx:${{ env.VERSION }} .
             docker push kimyong120413/cicdnginx:${{ env.VERSION }}      
   
 
