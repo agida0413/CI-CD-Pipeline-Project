@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.head.ref, 'hotfix-') # release 브랜치일 때만 실행
+    if: startsWith(github.event.ref, 'refs/heads/hotfix-')
     steps:
       - uses: actions/checkout@v3
 
