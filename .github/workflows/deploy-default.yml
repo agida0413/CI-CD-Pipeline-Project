@@ -75,7 +75,7 @@ jobs:
             docker push kimyong120413/cicdnginx:${{ env.VERSION }}      
 
       - name: Generate deployment package
-        run:  zip -r deploy.zip . -x "*.git*" -x "./backend/Dockerfile.deploy" -x "./frontend/Dockerfile.deploy" -x "./nginx/Dockerfile"
+        run:  zip -r deploy.zip . -x "*.git*" 
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
