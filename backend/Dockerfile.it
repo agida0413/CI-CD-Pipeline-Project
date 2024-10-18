@@ -2,6 +2,7 @@
 FROM maven:latest AS build
 
 WORKDIR /project/backend
+
 RUN apt-get update && \
     apt-get install -y libfreetype6-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -9,10 +10,12 @@ RUN apt-get update && \
 # Copy pom.xml and install dependencies
 COPY pom.xml .
 
-
 # Copy source files
 COPY src ./src
+RUN mvn clean package -DskipTests
 
+FROM openjdk:17-jdk-slim
 
+COPY --from=build /project/backend/target/*.jar app.jar
 # Run the application
-ENTRYPOINT ["mvn", "verify", "-DskipTests=false"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
