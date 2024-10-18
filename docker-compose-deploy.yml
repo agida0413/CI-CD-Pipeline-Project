@@ -2,27 +2,28 @@ version: "3"
 services:
 
   backend:
-    build: 
-      dockerfile: Dockerfile.deploy
-      context: ./backend
+    image: kimyong120413/cicdbackend:${VERSION}
+    environment:
+      - VERSION=${VERSION}
     container_name: backend
     depends_on:
       - mysql
     ports: 
       - "8080:8080"  
   frontend:
-    build:
-      dockerfile: Dockerfile.deploy
-      context: ./frontend
+    image: kimyong120413/cicdfrontend:${VERSION}
+    environment:
+      - VERSION=${VERSION}
     stdin_open: true
     container_name: frontend
     ports: 
       - "3000:3000" 
   nginx: 
+    image: kimyong120413/cicdfrontend:${VERSION}
+    environment:
+      - VERSION=${VERSION}
     restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
+    
     ports: 
       - "80:80"
-    container_name: nginx    
+    container_name: nginx
