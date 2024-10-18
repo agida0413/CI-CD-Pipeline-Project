@@ -1,7 +1,6 @@
 name: DOCKER HUB IMAGE PUSH TO DEPLOY [CD]
 
 on:
- on:
   push:
     branches:
       - release-*  # master 브랜치에 푸시될 때 실행
