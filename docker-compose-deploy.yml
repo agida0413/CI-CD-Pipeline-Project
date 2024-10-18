@@ -4,12 +4,14 @@ services:
   backend:
     image: kimyong120413/cicdbackend:${VERSION}
     environment:
-      - VERSION=${VERSION}
+       - VERSION=${VERSION}
+       - SPRING_PROFILES_ACTIVE=deploy
     container_name: backend
     depends_on:
       - mysql
     ports: 
-      - "8080:8080"  
+      - "8080:8080"
+    mem_limit: 512m    
   frontend:
     image: kimyong120413/cicdfrontend:${VERSION}
     environment:
@@ -17,13 +19,14 @@ services:
     stdin_open: true
     container_name: frontend
     ports: 
-      - "3000:3000" 
+      - "3000:3000"
+    mem_limit: 128m   
   nginx: 
-    image: kimyong120413/cicdfrontend:${VERSION}
+    image: kimyong120413/cicdnginx:${VERSION}
     environment:
       - VERSION=${VERSION}
     restart: always
-    
     ports: 
       - "80:80"
     container_name: nginx
+    mem_limit: 128m

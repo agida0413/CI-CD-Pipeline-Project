@@ -1,4 +1,4 @@
-name: CI-it
+name: DOCKER HUB IMAGE PUSH TO DEPLOY [CD]
 
 on:
   pull_request:
@@ -27,6 +27,7 @@ jobs:
           else
             echo "No version found in branch name."
           fi
+
 
       - name: Log in to Docker Hub
         run: |

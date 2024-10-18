@@ -1,4 +1,4 @@
-name: CI-it
+name: BACK-END/FRONT-END INTEGRATION TEST [CD]
 
 on:
   pull_request:

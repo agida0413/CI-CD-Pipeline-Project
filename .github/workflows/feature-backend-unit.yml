@@ -1,4 +1,4 @@
-name: CI-unit
+name: BACK-END UNIT TEST [CI]
 
 on:
   push:
