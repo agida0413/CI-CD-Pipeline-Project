@@ -21,6 +21,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'  # JDK 분포 설정
     
+          
       - name: Run Unit Tests
         run: |
           cd backend
