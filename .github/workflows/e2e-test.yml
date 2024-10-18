@@ -3,7 +3,7 @@ name: CI-it
 on:
   pull_request:
     branches:
-      - devlop  # PR이 머지될 브랜치
+      - release
     types: 
       - opened     # PR 생성 시
       - synchronize # PR이 업데이트될 때 (커밋 추가 등)
@@ -21,23 +21,28 @@ jobs:
 
       - name: Run mysql
         run: |
-           docker compose -f docker-compose-it.yml up -d mysql
+           docker compose -f docker-compose-e2e.yml up -d mysql
 
       - name: Wait for MySQL
         run: |
           sleep 10  # 적절한 대기 시간 설정
+          - name: Build Backend
+
+      - name: Build Nginx
+        run: |
+            docker compose -f docker-compose-e2e.yml up -d nginx   
 
       - name: Build Backend
         run: |
-          docker compose -f docker-compose-it.yml up -d backend   
+          docker compose -f docker-compose-e2e.yml up -d backend   
 
       - name: Run Integrate TEST/BACK-END
         run: |
           docker exec backend mvn clean verify
 
-      - name: Run Integrate TEST/FRONT-END
+      - name: Run Integrate TEST/FRONT-END && E2E TEST
         run: |
-          docker build -f ./frontend/Dockerfile.it -t frontend-test .     
+          docker build -f ./frontend/Dockerfile.e2e -t frontend-test .     
 
      
     
