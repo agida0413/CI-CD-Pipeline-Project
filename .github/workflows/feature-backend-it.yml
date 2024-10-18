@@ -60,7 +60,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Docker image and Run Tests
+      - name: Build Docker image
         run: |
           docker build -f ./backend/Dockerfile.it -t backendit ./backend
-          docker run -p 8080:8080 backendit
+
+      - name: Run Docker container and execute tests
+        run: |
+          docker run --name backendit-container -d -p 8080:8080 backendit
+          echo "Waiting for the backend service to start..."
+          sleep 10  # 서비스가 시작될 시간을 줌
+          docker exec backendit-container mvn test  # Maven 통합 테스트 실행
+          docker stop backendit-container
+          docker rm backendit-container
