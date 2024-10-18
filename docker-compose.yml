@@ -4,12 +4,12 @@ services:
   backend:
     image: kimyong120413/cicdbackend:0.0.2
     environment:
-       - SPRING_PROFILES_ACTIVE=deploy
-       - MYSQL_HOST: $MYSQL_HOST 
-       - MYSQL_USER: $MYSQL_USER 
-       - MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-       - MYSQL_DATABASE: $MYSQL_DATABASE
-       - MYSQL_PORT: $MYSQL_PORT   
+       SPRING_PROFILES_ACTIVE: deploy
+       MYSQL_HOST: $MYSQL_HOST 
+       MYSQL_USER: $MYSQL_USER 
+       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+       MYSQL_DATABASE: $MYSQL_DATABASE
+       MYSQL_PORT: $MYSQL_PORT   
     container_name: backend
     depends_on:
       - mysql
