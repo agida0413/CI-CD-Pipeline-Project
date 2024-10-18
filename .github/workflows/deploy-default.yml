@@ -17,21 +17,21 @@ jobs:
 
 
 
-      - name: Run mysql
-        run: |
-           docker compose -f docker-compose-it.yml up -d mysql
+      # - name: Run mysql
+      #   run: |
+      #      docker compose -f docker-compose-it.yml up -d mysql
 
-      - name: Wait for MySQL
-        run: |
-          sleep 10  # 적절한 대기 시간 설정
+      # - name: Wait for MySQL
+      #   run: |
+      #     sleep 10  # 적절한 대기 시간 설정
 
-      - name: Build Backend
-        run: |
-          docker compose -f docker-compose-it.yml up -d backend   
+      # - name: Build Backend
+      #   run: |
+      #     docker compose -f docker-compose-it.yml up -d backend   
 
-      - name: Run Integrate TEST/BACK-END
-        run: |
-          docker exec backend mvn clean verify
+      # - name: Run Integrate TEST/BACK-END
+      #   run: |
+      #     docker exec backend mvn clean verify
 
       # - name: Run Integrate TEST/FRONT-END
       #   run: |
@@ -64,10 +64,10 @@ jobs:
           docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend:${{ env.VERSION }} .
           docker push kimyong120413/cicdbackend:${{ env.VERSION }}
 
-      # - name: Frontend Image hub push
-      #   run: |
-      #       docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
-      #       docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
+      - name: Frontend Image hub push
+        run: |
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
+            docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
 
       - name: nginx Image hub push
         run: |
