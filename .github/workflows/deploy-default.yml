@@ -58,6 +58,22 @@ jobs:
       - name: Login Docker
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
     
+      #이미지 빌드 
+      - name: Backend Image hub push
+        run: |
+          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend:${{ env.VERSION }} .
+          docker push kimyong120413/cicdbackend:${{ env.VERSION }}
+
+      - name: Frontend Image hub push
+        run: |
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
+            docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
+
+      - name: nginx Image hub push
+        run: |
+            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx:${{ env.VERSION }} .
+            docker push kimyong120413/cicdnginx:${{ env.VERSION }}      
+
       - name: Generate deployment package
         run: zip -r deploy.zip docker-compose-deploy.yml 
 
