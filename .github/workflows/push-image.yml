@@ -1,0 +1,60 @@
+name: CI-it
+
+on:
+  pull_request:
+    branches:
+      - release  # PR이 머지될 브랜치
+    types: 
+      - opened     # PR 생성 시
+      - synchronize # PR이 업데이트될 때 (커밋 추가 등)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:      
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Run mysql
+        run: |
+           docker compose -f docker-compose-it.yml up -d mysql
+
+      - name: Wait for MySQL
+        run: |
+          sleep 10  # 적절한 대기 시간 설정
+
+      - name: Build Backend
+        run: |
+          docker compose -f docker-compose-it.yml up -d backend   
+
+      - name: Run Integrate TEST/BACK-END
+        run: |
+          docker exec backend mvn clean verify
+
+      - name: Run Integrate TEST/FRONT-END
+        run: |
+          docker build -f ./frontend/Dockerfile.it -t frontend-test . 
+          
+      #이미지 빌드 
+      - name: Backend Image hub push
+        run: |
+          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/backend/release:0.0.1 .
+          docker push kimyong120413/backend/release:0.0.1
+
+      - name: Frontend Image hub push
+        run: |
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/frontend/release:0.0.1 .
+            docker push kimyong120413/frontend/release:0.0.1
+
+      - name: nginx Image hub push
+        run: |
+            docker build -f ./nginx/Dockerfile -t kimyong120413/nginx/release:0.0.1 .
+            docker push kimyong120413/nginx/release:0.0.1      
+  
+
+
+     
+     

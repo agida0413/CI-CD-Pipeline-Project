@@ -8,9 +8,6 @@ COPY ../frontend/package-lock.json ./
 
 RUN npm install 
 COPY ../frontend ./
-
-RUN npm test
-RUN npx cypress run
 RUN npm run build
 
 FROM nginx
