@@ -1,16 +1,39 @@
 name: DEPLOY-FROM-RELEASE-*.*.* , DOCKER HUB [CD]
 
 on:
-  push:
+  pull_request:
     branches:
-      - master  # master 브랜치에 푸시될 때 실행
-
+      - master
+    types: 
+      - opened
+      - synchronize # PR이 업데이트될 때 (커밋 추가 등)
 jobs:
   build:
     runs-on: ubuntu-latest
     if: startsWith(github.event.pull_request.head.ref, 'release-') # release 브랜치일 때만 실행
     steps:
       - uses: actions/checkout@v3
+
+      - name: Run mysql
+        run: |
+           docker compose -f docker-compose-it.yml up -d mysql
+
+      - name: Wait for MySQL
+        run: |
+          sleep 10  # 적절한 대기 시간 설정
+
+      - name: Build Backend
+        run: |
+          docker compose -f docker-compose-it.yml up -d backend   
+
+      - name: Run Integrate TEST/BACK-END
+        run: |
+          docker exec backend mvn clean verify
+
+      - name: Run Integrate TEST/FRONT-END
+        run: |
+          docker build -f ./frontend/Dockerfile.it -t frontend-test . 
+
 
       - name: Get PR source branch name
         id: get_branch_name
