@@ -37,7 +37,7 @@ jobs:
 
       - name: Enter BACKEND
         run: | 
-             docker exec -it backend    
+             docker exec -it backend /bin/sh   
 
       - name: Run Integrate TEST
         run: |
