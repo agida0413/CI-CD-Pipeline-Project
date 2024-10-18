@@ -3,11 +3,22 @@ FROM maven:latest
 
 WORKDIR /project/backend
 
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY pom.xml .
 COPY src ./src
 
-# Maven을 이용해 패키징
-RUN mvn clean package -DskipTests
+RUN mvn clean package -Dspring.profiles.active=commit
+# Stage 2: Run the application
+FROM openjdk:17-jdk-slim
 
-# 테스트 실행
-CMD ["mvn", "test"]
+# Set the working directory
+WORKDIR /project/backend
+
+# Copy the built JAR file from the build stage
+COPY --from=build /project/backend/target/*.jar app.jar
+
+# Run the application
+CMD ["java", "-jar", "app.jar"]

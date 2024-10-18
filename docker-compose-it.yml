@@ -1,0 +1,21 @@
+version: "3"
+services:
+
+  backend:
+    build: 
+      dockerfile: Dockerfile.it
+      context: ./backend
+    container_name: backend
+    depends_on:
+      - mysql
+    ports: 
+      - "8080:8080"  
+  mysql:
+    image: kimyong120413/mysql:test
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    container_name: mysql

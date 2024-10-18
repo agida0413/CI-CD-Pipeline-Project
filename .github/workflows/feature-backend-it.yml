@@ -9,62 +9,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:  
-          MYSQL_DATABASE: test
-          MYSQL_ROOT_PASSWORD: 1234
-        ports:
-          - 3306:3306
+    
 
     steps:
+
+      
+     
+
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Log in to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Run mysql
+        run: |
+           docker compose -f docker-compose-it.yml up -d mysql
+
+      - name: Wait for MySQL
+        run: |
+          sleep 10  # 적절한 대기 시간 설정
 
       - name: Wait for MySQL to be ready
         run: |
           echo "Waiting for MySQL to be ready..."
-          while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
+          while ! mysqladmin ping -h mysql -P 3306 --silent; do
             sleep 1
           done
 
-      - name: Create database
-        run: |
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS test;"
 
-      - name: Run init.sql script
+      - name: Build and Integration test Backend
         run: |
-            echo "$INIT_SQL_CONTENT" | mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test
-        env:
-            INIT_SQL_CONTENT: ${{ secrets.INIT_SQL_CONTENT }}
-
-      - name: Build Docker image
-        run: |
-          docker build -f ./backend/Dockerfile.it -t backendit ./backend
-
-      - name: Run backend container
-        run: |
-          docker run --name backendit-container -d -p 8080:8080 backendit
-          echo "Waiting for the backend service to start..."
-          sleep 10  # 서비스가 시작될 시간을 줌
-
-      - name: Check backend service health
-        run: |
-          for i in {1..10}; do
-            if curl -f http://127.0.0.1:8080; then
-              echo "Service is up!"
-              break
-            fi
-            echo "Waiting for service..."
-            sleep 5
-          done
-
-      - name: Run integration tests
-        run: |
-          docker run --rm --network host backendit-test  # 테스트 컨테이너를 실행
-
-      - name: Stop and remove backend container
-        run: |
-          docker stop backendit-container
-          docker rm backendit-container
+             docker compose -f docker-compose-it.yml up -d backend
+    
+     
+    
