@@ -40,18 +40,18 @@ jobs:
       #이미지 빌드 
       - name: Backend Image hub push
         run: |
-          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/backend/release:0.0.1 .
-          docker push kimyong120413/backend/release:0.0.1
+          docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend/release:0.0.1 .
+          docker push kimyong120413/cicdbackend/release:0.0.1
 
       - name: Frontend Image hub push
         run: |
-            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/frontend/release:0.0.1 .
-            docker push kimyong120413/frontend/release:0.0.1
+            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend/release:0.0.1 .
+            docker push kimyong120413/cicdfrontend/release:0.0.1
 
       - name: nginx Image hub push
         run: |
-            docker build -f ./nginx/Dockerfile -t kimyong120413/nginx/release:0.0.1 .
-            docker push kimyong120413/nginx/release:0.0.1      
+            docker build -f ./nginx/Dockerfile -t kimyong120413/cicdnginx/release:0.0.1 .
+            docker push kimyong120413/cicdnginx/release:0.0.1      
   
 
 
