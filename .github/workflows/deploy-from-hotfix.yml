@@ -1,7 +1,7 @@
 name: HOTFIX RE-DEPLOY [CD]
 
 on:
-  pull_request:
+  push:
     branches:
       - master
     types: 
