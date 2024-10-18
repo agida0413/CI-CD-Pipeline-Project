@@ -14,6 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+
       - name: Run mysql
         run: |
            docker compose -f docker-compose-it.yml up -d mysql
