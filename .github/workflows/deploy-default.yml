@@ -33,9 +33,9 @@ jobs:
         run: |
           docker exec backend mvn clean verify
 
-      - name: Run Integrate TEST/FRONT-END
-        run: |
-          docker build -f ./frontend/Dockerfile.it -t frontend-test . 
+      # - name: Run Integrate TEST/FRONT-END
+      #   run: |
+      #     docker build -f ./frontend/Dockerfile.it -t frontend-test . 
 
 
       - name: Get PR source branch name
@@ -64,10 +64,10 @@ jobs:
           docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend:${{ env.VERSION }} .
           docker push kimyong120413/cicdbackend:${{ env.VERSION }}
 
-      - name: Frontend Image hub push
-        run: |
-            docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
-            docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
+      # - name: Frontend Image hub push
+      #   run: |
+      #       docker build -f ./frontend/Dockerfile.deploy -t kimyong120413/cicdfrontend:${{ env.VERSION }} .
+      #       docker push kimyong120413/cicdfrontend:${{ env.VERSION }}
 
       - name: nginx Image hub push
         run: |

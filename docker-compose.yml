@@ -17,6 +17,15 @@ services:
     ports: 
       - "8080:8080"
     mem_limit: 512m    
+  # frontend:
+  #   image: kimyong120413/cicdfrontend:${VERSION}
+  #   environment:
+  #     - VERSION=${VERSION}
+  #   stdin_open: true
+  #   container_name: frontend
+  #   ports: 
+  #     - "3000:3000"
+  #   mem_limit: 128m   
   nginx: 
     image: kimyong120413/cicdnginx:${VERSION}
     environment:
