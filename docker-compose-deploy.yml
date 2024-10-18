@@ -3,7 +3,7 @@ services:
 
   backend:
     build: 
-      dockerfile: Dockerfile.it
+      dockerfile: Dockerfile.deploy
       context: ./backend
     container_name: backend
     depends_on:
@@ -12,21 +12,12 @@ services:
       - "8080:8080"  
   frontend:
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.deploy
       context: ./frontend
     stdin_open: true
     container_name: frontend
     ports: 
-      - "3000:3000"    
-  mysql:
-    image: kimyong120413/mysql:test2
-    environment:
-      MYSQL_DATABASE: test
-      MYSQL_ROOT_PASSWORD: 1234
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
-    container_name: mysql
+      - "3000:3000" 
   nginx: 
     restart: always
     build:
@@ -34,6 +25,4 @@ services:
       context: ./nginx
     ports: 
       - "80:80"
-    links:
-      - frontend
-      - backend    
+    container_name: nginx    

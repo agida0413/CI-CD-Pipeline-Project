@@ -42,7 +42,9 @@ jobs:
 
       - name: Run Integrate TEST/FRONT-END && E2E TEST
         run: |
-          docker build -f ./frontend/Dockerfile.e2e -t frontend-test .     
+          docker build -f ./frontend/Dockerfile.e2e -t frontend-test .   
+          
+      #이미지 푸시 
 
      
     
