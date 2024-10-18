@@ -1,10 +1,12 @@
 name: HOTFIX RE-DEPLOY [CD]
 
 on:
-  push:
+  pull_request:
     branches:
-      - master  # master 브랜치에 푸시될 때 실행
-
+      - master
+    types: 
+      - opened
+      - synchronize # PR이 업데이트될 때 (커밋 추가 등)
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +20,7 @@ jobs:
           BRANCH_NAME="${{ github.head_ref }}"  # PR을 보낸 브랜치 이름 추출
           echo "Branch name: $BRANCH_NAME"
 
-          # 버전 값 추출 (예: release-0.1.0)
+          # 버전 값 추출 (예: hotfix-0.1.0)
           if [[ $BRANCH_NAME =~ ^hotfix-(.*\..*)$ ]]; then
             VERSION="${BASH_REMATCH[1]}"
             echo "VERSION=${VERSION}" >> $GITHUB_ENV
@@ -29,6 +31,28 @@ jobs:
       - name: Login Docker
       - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
     
+      - name: Run mysql
+        run: |
+           docker compose -f docker-compose-it.yml up -d mysql
+
+      - name: Wait for MySQL
+        run: |
+          sleep 10  # 적절한 대기 시간 설정
+
+      - name: Build Backend
+        run: |
+          docker compose -f docker-compose-it.yml up -d backend   
+
+      - name: Run Integrate TEST/BACK-END
+        run: |
+          docker exec backend mvn clean verify
+
+      - name: Run Integrate TEST/FRONT-END
+        run: |
+          docker build -f ./frontend/Dockerfile.it -t frontend-test .  
+
+      
+
       - name: Backend Image hub push
         run: |
           docker build -f ./backend/Dockerfile.deploy -t kimyong120413/cicdbackend:${{ env.VERSION }} .
