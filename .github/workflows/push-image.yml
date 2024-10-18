@@ -1,11 +1,10 @@
 name: DOCKER HUB IMAGE PUSH TO DEPLOY [CD]
 
 on:
-  pull_request:
-
-      types: [closed]
-      branches:
-        - release-*  # PR이 머지될 브랜치
+ on:
+  push:
+    branches:
+      - release-*  # master 브랜치에 푸시될 때 실행
   
 jobs:
   build:
