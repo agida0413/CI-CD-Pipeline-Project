@@ -1,6 +1,4 @@
-version: "3"
 services:
-
   backend:
     image: kimyong120413/cicdbackend:0.0.2
     environment:
@@ -11,8 +9,6 @@ services:
        MYSQL_DATABASE: $MYSQL_DATABASE
        MYSQL_PORT: $MYSQL_PORT   
     container_name: backend
-    depends_on:
-      - mysql
     ports: 
       - "8080:8080"
     mem_limit: 512m    
