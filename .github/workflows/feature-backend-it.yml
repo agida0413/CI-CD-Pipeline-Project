@@ -1,9 +1,12 @@
 name: CI-it
 
 on:
-  push:
+  pull_request:
     branches:
-      - feature/backend/**
+      - devlop  # PR이 머지될 브랜치
+      - master    # PR이 머지될 브랜치
+    types: 
+      - opened     # PR 생성 시
 
 jobs:
   build:
@@ -12,10 +15,7 @@ jobs:
     
 
     steps:
-
-      
-     
-
+       
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Build Backend
         run: |
-             docker compose -f docker-compose-it.yml up -d backend   
+          docker compose -f docker-compose-it.yml up -d backend   
 
       - name: Run Integrate TEST
         run: |
