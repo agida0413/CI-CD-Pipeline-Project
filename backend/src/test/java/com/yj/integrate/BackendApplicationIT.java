@@ -1,4 +1,4 @@
-package com.yj;
+package com.yj.integrate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
