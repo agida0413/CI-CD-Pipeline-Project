@@ -3,7 +3,7 @@ name: CI-it
 on:
   pull_request:
     branches:
-      -release
+      - release
     types: 
       - opened     # PR 생성 시
       - synchronize # PR이 업데이트될 때 (커밋 추가 등)
