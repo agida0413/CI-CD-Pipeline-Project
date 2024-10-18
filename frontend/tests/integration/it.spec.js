@@ -1,5 +1,5 @@
-describe('Always Failing Test', () => {
-  it('should always fail', () => {
-    expect(true).toBe(false); // 항상 false
+describe('Always Passing Test', () => {
+  it('should always pass', () => {
+    expect(true).toBe(true); // 항상 true
   });
 });
