@@ -35,9 +35,12 @@ jobs:
         run: |
              docker compose -f docker-compose-it.yml up -d backend
 
+      - name: Enter BACKEND
+        run: | 
+             docker exec -it backend    
+
       - name: Run Integrate TEST
         run: |
-             docker exec -it backend |
              mvn clean verify
 
      
