@@ -1,0 +1,25 @@
+name: CI-unit
+
+on:
+  push:
+    branches:
+      - feature/frontend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          clean: false  # 클린 비활성화
+    
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+  
+      - name: Run Unit Tests
+        run: |
+            docker build -f ./frontend/Dockerfile.unit -t frontend-test .
+           
