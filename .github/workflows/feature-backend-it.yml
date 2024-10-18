@@ -37,7 +37,7 @@ jobs:
 
       - name: Run Integrate TEST
         run: |
-          docker exec mvn clean verify
+          docker exec backend mvn clean verify
 
      
     
