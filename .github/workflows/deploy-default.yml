@@ -5,13 +5,15 @@ on:
       types: [closed]
       branches:
         - master 
-      if: startsWith(github.event.pull_request.head.ref, 'release-')
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
-     # release 브랜치일 때만 실행
+    if: startsWith(github.event.pull_request.head.ref, 'release-') # release 브랜치일 때만 실행
     steps:
       - uses: actions/checkout@v3
+
       - name: Get PR source branch name
         id: get_branch_name
         run: |
