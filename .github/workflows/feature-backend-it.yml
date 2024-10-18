@@ -7,62 +7,37 @@ on:
       - master    # PR이 머지될 브랜치
     types: 
       - opened     # PR 생성 시
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:latest
-        env:  
-          MYSQL_DATABASE: test
-          MYSQL_ROOT_PASSWORD: 1234
-        ports:
-          - 3306:3306
-
+    
 
     steps:
+       
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          clean: false  # 클린 비활성화
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'  # JDK 분포 설정
 
-      - name: Wait for MySQL to be ready
+      - name: Log in to Docker Hub
         run: |
-          echo "Waiting for MySQL to be ready..."
-          while ! mysqladmin ping -h 127.0.0.1 -P 3306 --silent; do
-            sleep 1
-          done
-          
-      - name: Create database
-        run: |
-          echo "Creating database..."
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "CREATE DATABASE IF NOT EXISTS test;"
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Run init.sql script
+      - name: Run mysql
         run: |
-            echo "$INIT_SQL_CONTENT" | mysql -h 127.0.0.1 -P 3306 -uroot -p1234 test
-        env:
-            INIT_SQL_CONTENT: ${{ secrets.INIT_SQL_CONTENT }}
+           docker compose -f docker-compose-it.yml up -d mysql
 
-      - name: Check database and tables
+      - name: Wait for MySQL
         run: |
-          echo "Checking if database and tables are created..."
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "SHOW DATABASES;"
-          mysql -h 127.0.0.1 -P 3306 -uroot -p1234 -e "USE test; SHOW TABLES;"
-          
+          sleep 10  # 적절한 대기 시간 설정
 
-      - name: Run Unit Tests
+      - name: Build Backend
         run: |
-          cd backend
-          mvn test -Dskip.unit.tests=false -Dskip.integration.tests=true -Dspring.profiles.active=commit
+          docker compose -f docker-compose-it.yml up -d backend   
 
-      - name: Run Integration Tests
+      - name: Run Integrate TEST
         run: |
-          cd backend
-          mvn verify -Dskip.unit.tests=true -Dskip.integration.tests=false -Dspring.profiles.active=commit
+          docker exec backend mvn clean verify
+
+     
+    
