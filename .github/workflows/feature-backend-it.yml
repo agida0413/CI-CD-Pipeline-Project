@@ -1,12 +1,17 @@
 name: CI-it
 
+# on:
+#   pull_request:
+#     branches:
+#       - devlop  # PR이 머지될 브랜치
+#       - master    # PR이 머지될 브랜치
+#     types: 
+#       - opened     # PR 생성 시
+
 on:
-  pull_request:
+  push:
     branches:
-      - devlop  # PR이 머지될 브랜치
-      - master    # PR이 머지될 브랜치
-    types: 
-      - opened     # PR 생성 시
+      - feature/backend/**
 jobs:
   build:
     runs-on: ubuntu-latest
