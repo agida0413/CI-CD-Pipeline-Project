@@ -1,4 +1,4 @@
-name: CI-unit
+name: FRONT-END UNIT TEST [CI]
 
 on:
   push:

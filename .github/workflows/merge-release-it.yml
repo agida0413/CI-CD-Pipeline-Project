@@ -1,9 +1,10 @@
-name: CI-it
+name: INTEGRATION TEST - BEFORE MERGE [CD]
 
 on:
   pull_request:
     branches:
       - release-*  # PR이 머지될 브랜치
+      - master
     types: 
       - opened     # PR 생성 시
 jobs:

@@ -1,4 +1,4 @@
-name: CI-it
+name: DOCKER HUB IMAGE PUSH TO DEPLOY [CD]
 
 on:
   pull_request:
