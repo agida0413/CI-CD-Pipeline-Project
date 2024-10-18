@@ -52,7 +52,7 @@ jobs:
       - name: Check backend service health
         run: |
           for i in {1..10}; do
-            if curl -f http://localhost:8080/your-endpoint; then
+            if curl -f http://127.0.0.1:8080; then
               echo "Service is up!"
               break
             fi
