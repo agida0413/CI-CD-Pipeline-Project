@@ -1,10 +1,9 @@
 name: DEPLOY-FROM-RELEASE-*.*.* , DOCKER HUB [CD]
 
 on:
-  pull_request:
-      types: [closed]
-      branches:
-        - master 
+  push:
+    branches:
+      - master  # master 브랜치에 푸시될 때 실행
 
 jobs:
   build:
