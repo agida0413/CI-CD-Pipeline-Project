@@ -2,4 +2,5 @@
 
 
 
-![Uploading ar2.drawio.png…]()
+![ar2 drawio](https://github.com/user-attachments/assets/36197c0c-ca7b-4672-b97a-cee35c3c0689)
+
