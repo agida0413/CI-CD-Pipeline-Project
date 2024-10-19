@@ -93,8 +93,9 @@
 
 
 #  📊 소프트웨어 구조
+![ar5 drawio](https://github.com/user-attachments/assets/4e76802c-29f7-4e87-8cd4-7575ccd2c3bd)
 
-![ar4 drawio](https://github.com/user-attachments/assets/ab760275-923d-4aa6-9745-e752d52ffda9)
+
 
 
 
