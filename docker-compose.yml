@@ -9,6 +9,7 @@ services:
        MYSQL_DATABASE: $MYSQL_DATABASE
        MYSQL_PORT: $MYSQL_PORT   
     container_name: backend
+    
     ports: 
       - "8080:8080"
     mem_limit: 512m    
