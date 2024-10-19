@@ -7,7 +7,7 @@
 
    - **기능은 SECURITY + JWT + CAPTCHA를 활용한 회원가입,로그인기능만 구현한다.** 
 
-   - **Docker, GithubAction 을 이용한 CI/CD 자동화 파이프라인 구축 및 브랜치 전략에 초점을 둔다.**
+   - **Docker, GithubAction 을 이용한 CI/CD 자동화 파이프라인 및 브랜치 전략 구축에 초점을 둔다.**
 
 
      
