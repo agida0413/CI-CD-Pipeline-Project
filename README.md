@@ -9,7 +9,6 @@
 
    - **Docker, GithubAction 을 이용한 CI/CD 자동화 파이프라인 구축 및 브랜치 전략에 초점을 둔다.**
 
-   - **설정 페이지**
 
      
 
@@ -43,7 +42,7 @@
 <br>
 
 
-   ✔️ DB / CLOUD
+   ✔️ DB / DEVOPS
 
 
 
@@ -109,7 +108,7 @@
 
 
 
- # 🖥️ CI/CD 및 브랜치 전략
+ #  📊 CI/CD 및 브랜치 전략
 
 
 ![CICD drawio](https://github.com/user-attachments/assets/fd91969b-bce4-4602-9404-081e38a40189)
