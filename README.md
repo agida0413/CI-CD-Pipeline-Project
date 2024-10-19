@@ -50,7 +50,7 @@
          <span><img src="https://img.shields.io/badge/Amazon_RDS-527FFF?style=for-the-badge&logo=amazonaws&logoColor=white"></span> &nbsp;
       <span> <img src="https://img.shields.io/badge/Elastic%20Beanstalk-4B8BBE?style=for-the-badge&logo=Amazon%20AWS&logoColor=white"></span> &nbsp;
         <span> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/></span> &nbsp;
-            <span> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=for-the-badge&logo=GitHub Actions&logoColor=white"/></span> 
+            <span> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=for-the-badge&logo=GitHub Actions&logoColor=white"/></span> &nbsp;
              <span><img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white"/></span> &nbsp;
 </div>
 
