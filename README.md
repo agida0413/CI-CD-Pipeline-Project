@@ -93,7 +93,8 @@
 
 
 #  📊 소프트웨어 구조
-![ar5 drawio](https://github.com/user-attachments/assets/4e76802c-29f7-4e87-8cd4-7575ccd2c3bd)
+
+![1 drawio](https://github.com/user-attachments/assets/af40b0e1-210d-403b-a1d5-819b0c72c2aa)
 
 
 
@@ -114,8 +115,9 @@
 
  #  📊 CI/CD 및 브랜치 전략
 
+![2 drawio](https://github.com/user-attachments/assets/31da7b91-1e22-45ab-8fa2-bbe321cacba2)
 
-![CICD drawio](https://github.com/user-attachments/assets/fd91969b-bce4-4602-9404-081e38a40189)
+
 
 
 
