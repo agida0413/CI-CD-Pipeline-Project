@@ -34,6 +34,9 @@
 
 
    ✔️ Front-end
+
+
+   
 ![Vue.js](https://img.shields.io/badge/vuejs-35495e?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D) 
 ![Vuetify](https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=AEDDFF)
 
